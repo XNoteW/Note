@@ -1,11 +1,7 @@
-# 机器学习
+# 学习笔记
 
 ## [目录](SUMMARY.md)
 
 
 
-
-## 附录
-
-- [英汉术语对照](TERMINOLOGY.md)
-- [样式规范](STYLE_GUIDE.md)
+# [碎片](碎片/README.md)
