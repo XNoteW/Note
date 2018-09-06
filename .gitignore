@@ -6,3 +6,4 @@ build/
 *.params
 *.DS_Store
 *.csv
+themes/next/
