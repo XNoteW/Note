@@ -1,6 +1,16 @@
 theme: jekyll-theme-cayman
-deploy:
-  type: git
-  repository: 
-    github: 你的github仓库地址,master
-    coding: 你的coding仓库地址,master
+# deploy:
+#   type: git
+#   repository: 
+#     github: 你的github仓库地址,master
+#     coding: 你的coding仓库地址,master
+author: 刘新伟
+email: 735613050@qq.com
+
+# Extensions
+Plugins:
+- hexo-generator-sitemap
+
+#sitemap
+sitemap:
+  path: sitemap.xml
