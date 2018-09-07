@@ -41,4 +41,4 @@ $$
 f_0(x) = ||Ax-b||_2^2 = \displaystyle\sum_{i=1}^k (a_i^Tx_i - b_i)^2
 $$
 
-其中 $A \in \mathbb{R}^{k \times n}, k \geq n$, $a_i^T$ 是矩阵 $A$ 的行向量. 向量 $x \mathbb{R}^n$ 是优化变量.
+其中 $A \in \mathbb{R}^{k \times n}, k \geq n$, $a_i^T$ 是矩阵 $A$ 的行向量. 向量 $x \in \mathbb{R}^n$ 是优化变量.
