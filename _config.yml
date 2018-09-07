@@ -8,9 +8,19 @@ author: 刘新伟
 email: 735613050@qq.com
 
 # Extensions
-Plugins:
-- hexo-generator-sitemap
-
-#sitemap
-sitemap:
-  path: sitemap.xml
+markdown_it_plus:
+  highlight: true
+  html: true
+  xhtmlOut: true
+  breaks: true
+  langPrefix:
+  linkify: true
+  typographer:
+  quotes: “”‘’
+  plugins:
+    - plugin:
+        name: markdown-it-katex
+        enable: true
+    - plugin:
+        name: markdown-it-mark
+        enable: false
