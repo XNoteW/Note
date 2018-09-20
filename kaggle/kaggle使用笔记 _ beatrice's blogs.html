@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<!-- saved from url=(0073)http://dingby.site/2018/07/06/kaggle%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/ -->
+<html class="theme-next mist use-motion" lang="zh-Hans"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="./kaggle使用笔记 _ beatrice&#39;s blogs_files/jquery.fancybox.css" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="./kaggle使用笔记 _ beatrice&#39;s blogs_files/css" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="./kaggle使用笔记 _ beatrice&#39;s blogs_files/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+<link href="./kaggle使用笔记 _ beatrice&#39;s blogs_files/main.css" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="kaggle,">
+
+
+
+
+
+  <link rel="alternate" href="http://dingby.site/atom.xml" title="beatrice&#39;s blogs" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="http://dingby.site/images/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="因为参加了DCASE2018比赛的声学场景分类的子任务，这个比赛有个排行榜是用的kaggle来做的，所以在比赛中，用到过kaggle API，下面是关于kaggle的使用笔记。 kaggle 是什么？Kaggle是一个数据科学竞赛的平台，很多公司会发布一些接近真实业务的问题，吸引爱好数据科学的人来一起解决。  点击导航栏的 competitions 可以看到有很多比赛，其中正式比赛，一般会有奖金或">
+<meta name="keywords" content="kaggle">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kaggle使用笔记">
+<meta property="og:url" content="http://yoursite.com/2018/07/06/kaggle使用笔记/index.html">
+<meta property="og:site_name" content="beatrice&#39;s blogs">
+<meta property="og:description" content="因为参加了DCASE2018比赛的声学场景分类的子任务，这个比赛有个排行榜是用的kaggle来做的，所以在比赛中，用到过kaggle API，下面是关于kaggle的使用笔记。 kaggle 是什么？Kaggle是一个数据科学竞赛的平台，很多公司会发布一些接近真实业务的问题，吸引爱好数据科学的人来一起解决。  点击导航栏的 competitions 可以看到有很多比赛，其中正式比赛，一般会有奖金或">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-06T08:26:13.686Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="kaggle使用笔记">
+<meta name="twitter:description" content="因为参加了DCASE2018比赛的声学场景分类的子任务，这个比赛有个排行榜是用的kaggle来做的，所以在比赛中，用到过kaggle API，下面是关于kaggle的使用笔记。 kaggle 是什么？Kaggle是一个数据科学竞赛的平台，很多公司会发布一些接近真实业务的问题，吸引爱好数据科学的人来一起解决。  点击导航栏的 competitions 可以看到有很多比赛，其中正式比赛，一般会有奖金或">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/06/kaggle%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/">
+
+
+
+
+
+  <title>kaggle使用笔记 | beatrice's blogs</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">.fancybox-margin{margin-right:16px;}</style></head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="http://dingby.site/" class="brand" rel="start" style="opacity: 1;">
+        <span class="logo-line-before"><i class="" style="transform: translateX(100%);"></i></span>
+        <span class="site-title" style="opacity: 1; top: 0px;">beatrice's blogs</span>
+        <span class="logo-line-after"><i class="" style="transform: translateX(-100%);"></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle" style="opacity: 1; top: 0px;">开启程序员之旅，坚持学习和思考，想知道最后的自己能做到哪一步，拭目以待吧。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home" style="opacity: 1; transform: translateY(0px);">
+          <a href="http://dingby.site/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about" style="opacity: 1; transform: translateY(0px);">
+          <a href="http://dingby.site/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories" style="opacity: 1; transform: translateY(0px);">
+          <a href="http://dingby.site/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives" style="opacity: 1; transform: translateY(0px);">
+          <a href="http://dingby.site/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags" style="opacity: 1; transform: translateY(0px);">
+          <a href="http://dingby.site/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article" style="opacity: 1; display: block; transform: translateY(0px);">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/06/kaggle%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/">
+
+    <span hidden="" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="beatrice">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/beatrice.jpg">
+    </span>
+
+    <span hidden="" itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="beatrice&#39;s blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">kaggle使用笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-06T11:04:20+08:00">
+                2018-07-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="http://dingby.site/categories/DCASE/" itemprop="url" rel="index">
+                    <span itemprop="name">DCASE</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>因为参加了DCASE2018比赛的声学场景分类的子任务，这个比赛有个排行榜是用的kaggle来做的，所以在比赛中，用到过kaggle API，下面是关于kaggle的使用笔记。</p>
+<h2 id="kaggle-是什么？"><a href="http://dingby.site/2018/07/06/kaggle%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/#kaggle-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F" class="headerlink" title="kaggle 是什么？"></a>kaggle 是什么？</h2><p><a href="https://www.kaggle.com/" target="_blank" rel="external">Kaggle</a>是一个数据科学竞赛的平台，很多公司会发布一些接近真实业务的问题，吸引爱好数据科学的人来一起解决。 </p>
+<p>点击导航栏的 competitions 可以看到有很多比赛，其中正式比赛，一般会有奖金或者工作机会，除了正式比赛还有一些为初学者提供的 playground，在这里可以先了解这个比赛，练习能力，再去参加正式比赛。 </p>
+<h2 id="参赛方法"><a href="http://dingby.site/2018/07/06/kaggle%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/#%E5%8F%82%E8%B5%9B%E6%96%B9%E6%B3%95" class="headerlink" title="参赛方法"></a>参赛方法</h2><p>参赛之前，首先需要一个kaggle的账号，激活之后，找到自己感兴趣的competitions，然后选择“join competitions”即可。</p>
+<h3 id="界面介绍："><a href="http://dingby.site/2018/07/06/kaggle%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/#%E7%95%8C%E9%9D%A2%E4%BB%8B%E7%BB%8D%EF%BC%9A" class="headerlink" title="界面介绍："></a>界面介绍：</h3><ul>
+<li><p><strong>Overview</strong>： 首先在 overview 中仔细阅读问题的描述，这个比赛是让我们预测房价，它会给我们 79 个影响房价的变量，我们可以通过应用 random forest，gradient boosting 等算法，来对房价进行预测。</p>
+</li>
+<li><p><strong>Data</strong>：在这里给我们提供了 train 数据集，用来训练模型；test 数据集，用来将训练好的模型应用到这上面，进行预测，这个结果也是要提交到系统进行评价的；sample_submission 就是我们最后提交的 csv 文件中，里面的列的格式需要和这里一样。</p>
+</li>
+<li><p><strong>Kernels</strong>：可以看到一些参赛者分享的代码。</p>
+</li>
+<li><p><strong>Discussion</strong>：参赛者们可以在这里提问，分享经验。</p>
+</li>
+<li><p><strong>Leaderboard</strong>：就是参赛者的排行榜。</p>
+</li>
+</ul>
+<h3 id="参赛流程"><a href="http://dingby.site/2018/07/06/kaggle%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/#%E5%8F%82%E8%B5%9B%E6%B5%81%E7%A8%8B" class="headerlink" title="参赛流程"></a>参赛流程</h3><p>第一步：在 Data 里面下载三个数据集，最基本的就是上面提到的三个文件，有些比赛会有附加的数据描述文件等。</p>
+<p>第二步：自己在线下分析，建模，调参，把用 test 数据集预测好的结果，按照 sample_submission 的格式输出到 csv 文件中。</p>
+<p>第三步：点击蓝色按钮 ’Submit Predictions’ ，把 csv 文件拖拽进去，然后系统就会加载并检验结果，稍等片刻后就会在 Leaderboard 上显示当前结果所在的排名位置。<br>上传过一次结果之后，就直接加入了这场比赛。</p>
+<blockquote>
+<p>注意：正式比赛中每个团队每天有 5 次的上传机会，然后就要等 24 小时再次传结果，playground 的是 9 次。</p>
+</blockquote>
+<h2 id="kaggle-API的安装及使用"><a href="http://dingby.site/2018/07/06/kaggle%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/#kaggle-API%E7%9A%84%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BD%BF%E7%94%A8" class="headerlink" title="kaggle API的安装及使用"></a>kaggle API的安装及使用</h2><h3 id="安装方法"><a href="http://dingby.site/2018/07/06/kaggle%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/#%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95" class="headerlink" title="安装方法"></a>安装方法</h3><p>首先确保安装了Python和包管理器pip。</p>
+<p>运行以下命令以使用命令行访问Kaggle API：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">// Windows系统，默认的安装目录是“$ PYTHON_HOME / Scripts”</div><div class="line">pip install kaggle</div><div class="line">// Mac / Linux系统</div><div class="line">pip install --user kaggle</div></pre></td></tr></tbody></table></figure>
+<h3 id="下载API-credentials"><a href="http://dingby.site/2018/07/06/kaggle%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/#%E4%B8%8B%E8%BD%BDAPI-credentials" class="headerlink" title="下载API credentials"></a>下载API credentials</h3><ul>
+<li><p>要使用Kaggle API，需要在<a href="https://www.kaggle.com/" target="_blank" rel="external">kaggle官网</a>上注册Kaggle帐户。</p>
+</li>
+<li><p>转到用户个人资料的’Account’标签，然后选择“create API Token”之后会弹出<code>kaggle.json</code>的下载，这是一个包含API credentials的文件。 </p>
+</li>
+<li>将此文件放在<code>〜/ .kaggle / kaggle.json</code>位置（在Windows上的位置<code>C：\ Users \ &lt;Windows-username&gt; \ .kaggle \ kaggle.json</code>）。</li>
+</ul>
+<blockquote>
+<p>第一次安装的时候，再<code>C：\ Users \ &lt;Windows-username&gt; \ .kaggle \ kaggle.json</code>目录下没有<code>.kaggle</code>这个文件夹，后来通过<code>pip uninstall kaggle</code>再重新安装之后，自动出现<code>.kaggle</code>文件夹，随后直接将<code>kaggle.json</code>文件复制到这个文件夹下面了。</p>
+<p>您可以定义一个shell环境变量KAGGLE_CONFIG_DIR来将此位置更改为$ KAGGLE_CONFIG_DIR / kaggle.json（在Windows上它将是％KAGGLE_CONFIG_DIR％\ kaggle.json）。</p>
+</blockquote>
+<h3 id="命令"><a href="http://dingby.site/2018/07/06/kaggle%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/#%E5%91%BD%E4%BB%A4" class="headerlink" title="命令"></a>命令</h3><p>命令行支持命令：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">kaggle competitions {list,files,download,submit,submissions,leaderboard}</div><div class="line">kaggle datasets {list, files, download, create, version, init}</div><div class="line">kaggle config {view, set, unset}</div></pre></td></tr></tbody></table></figure>
+<ul>
+<li><p><strong>比赛——API支持Kaggle Competitions的命令</strong>。</p>
+</li>
+<li><p>List competitions</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">usage: kaggle competitions list [-h] [-p PAGE] [-s SEARCH] [-v]</div><div class="line"></div><div class="line">optional arguments:</div><div class="line">  -h, --help            show this help message and exit</div><div class="line">  -p PAGE, --page PAGE  page number</div><div class="line">  -s SEARCH, --search SEARCH</div><div class="line">                        term(s) to search for</div><div class="line">  -v, --csv             print in CSV format</div><div class="line">                        (if not set print in table format)</div></pre></td></tr></tbody></table></figure>
+<p>例子：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kaggle competitions list -s health</div></pre></td></tr></tbody></table></figure>
+<ul>
+<li>List competition files</li>
+</ul>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">usage: kaggle competitions files [-h] [-c COMPETITION] [-v] [-q]</div><div class="line"></div><div class="line">optional arguments:</div><div class="line">  -h, --help            show this help message and exit</div><div class="line">  -c COMPETITION, --competition COMPETITION</div><div class="line">                        Competition URL suffix (use "kaggle competitions list" to show options)</div><div class="line">                        If empty, the default competition will be used (use "kaggle config set competition")"</div><div class="line">  -v, --csv             Print results in CSV format (if not set print in table format)</div><div class="line">  -q, --quiet           Suppress printing information about download progress</div></pre></td></tr></tbody></table></figure>
+<p>例子：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kaggle competitions files -c favorita-grocery-sales-forecasting</div></pre></td></tr></tbody></table></figure>
+<ul>
+<li>Download competition files</li>
+</ul>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">usage: kaggle competitions download [-h] [-c COMPETITION] [-f FILE] [-p PATH]</div><div class="line">                                    [-w] [-o] [-q]</div><div class="line"></div><div class="line">optional arguments:</div><div class="line">  -h, --help            show this help message and exit</div><div class="line">  -c COMPETITION, --competition COMPETITION</div><div class="line">                        Competition URL suffix (use "kaggle competitions list" to show options)</div><div class="line">                        If empty, the default competition will be used (use "kaggle config set competition")"</div><div class="line">  -f FILE, --file FILE  File name, all files downloaded if not provided</div><div class="line">                        (use "kaggle competitions files -c &lt;competition&gt;" to show options)</div><div class="line">  -p PATH, --path PATH  Folder where file(s) will be downloaded, defaults to  ~/.kaggle</div><div class="line">  -w, --wp              Download files to current working path</div><div class="line">  -o, --force           Skip check whether local version of file is up to date, force file download</div><div class="line">  -q, --quiet           Suppress printing information about download progress</div></pre></td></tr></tbody></table></figure>
+<p>例子:</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">kaggle competitions download -c favorita-grocery-sales-forecasting</div><div class="line">kaggle competitions download -c favorita-grocery-sales-forecasting -f test.csv.7z</div></pre></td></tr></tbody></table></figure>
+<ul>
+<li>Submit to a competition</li>
+</ul>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">usage: kaggle competitions submit [-h] [-c COMPETITION] -f FILE -m MESSAGE</div><div class="line">                                  [-q]</div><div class="line"></div><div class="line">required arguments:</div><div class="line">  -f FILE, --file FILE  File for upload (full path)</div><div class="line">  -m MESSAGE, --message MESSAGE</div><div class="line">                        Message describing this submission</div><div class="line"></div><div class="line">optional arguments:</div><div class="line">  -h, --help            show this help message and exit</div><div class="line">  -c COMPETITION, --competition COMPETITION</div><div class="line">                        Competition URL suffix (use "kaggle competitions list" to show options)</div><div class="line">                        If empty, the default competition will be used (use "kaggle config set competition")"</div><div class="line">  -q, --quiet           Suppress printing information about download progress</div></pre></td></tr></tbody></table></figure>
+<p>例子:</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kaggle competitions submit -c favorita-grocery-sales-forecasting -f sample_submission_favorita.csv.7z -m "My submission message"</div></pre></td></tr></tbody></table></figure>
+<ul>
+<li>List competition submissions</li>
+</ul>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">usage: kaggle competitions submissions [-h] [-c COMPETITION] [-v] [-q]</div><div class="line"></div><div class="line">optional arguments:</div><div class="line">  -h, --help            show this help message and exit</div><div class="line">  -c COMPETITION, --competition COMPETITION</div><div class="line">                        Competition URL suffix (use "kaggle competitions list" to show options)</div><div class="line">                        If empty, the default competition will be used (use "kaggle config set competition")"</div><div class="line">  -v, --csv             Print results in CSV format (if not set print in table format)</div><div class="line">  -q, --quiet           Suppress printing information about download progress</div></pre></td></tr></tbody></table></figure>
+<p>例子:</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kaggle competitions submissions -c favorita-grocery-sales-forecasting</div></pre></td></tr></tbody></table></figure>
+<ul>
+<li>Get competition leaderboard</li>
+</ul>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">usage: kaggle competitions leaderboard [-h] [-c COMPETITION] [-s] [-d]</div><div class="line">                                       [-p PATH] [-q]</div><div class="line"></div><div class="line">optional arguments:</div><div class="line">  -h, --help            show this help message and exit</div><div class="line">  -c COMPETITION, --competition COMPETITION</div><div class="line">                        Competition URL suffix (use "kaggle competitions list" to show options)</div><div class="line">                        If empty, the default competition will be used (use "kaggle config set competition")"</div><div class="line">  -s, --show            Show the top of the leaderboard</div><div class="line">  -d, --download        Download entire leaderboard</div><div class="line">  -p PATH, --path PATH  Folder where file(s) will be downloaded, defaults to ~/.kaggle</div><div class="line">  -q, --quiet           Suppress printing information about download progress</div></pre></td></tr></tbody></table></figure>
+<p>例子:</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kaggle competitions leaderboard -c favorita-grocery-sales-forecasting -s</div></pre></td></tr></tbody></table></figure>
+<p><strong>数据集——API支持以下用于Kaggle数据集的命令。</strong></p>
+<ul>
+<li>List datasets</li>
+</ul>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">usage: kaggle datasets list [-h] [-p PAGE] [-s SEARCH] [-v]</div><div class="line"></div><div class="line">optional arguments:</div><div class="line">  -h, --help            show this help message and exit</div><div class="line">  -p PAGE, --page PAGE  Page number for results paging</div><div class="line">  -s SEARCH, --search SEARCH</div><div class="line">                        Term(s) to search for</div><div class="line">  -v, --csv             Print results in CSV format (if not set print in table format)</div></pre></td></tr></tbody></table></figure>
+<p>例子:</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kaggle datasets list -s demographics</div></pre></td></tr></tbody></table></figure>
+<ul>
+<li>List files for a dataset</li>
+</ul>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">usage: kaggle datasets files [-h] -d DATASET [-v]</div><div class="line"></div><div class="line">required arguments:</div><div class="line">  -d DATASET, --dataset DATASET</div><div class="line">                        Dataset URL suffix in format &lt;owner&gt;/&lt;dataset-name&gt; (use "kaggle datasets list" to show options)</div><div class="line"></div><div class="line">optional arguments:</div><div class="line">  -h, --help            show this help message and exit</div><div class="line">  -v, --csv             Print results in CSV format (if not set print in table format)</div></pre></td></tr></tbody></table></figure>
+<p>例子:</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kaggle datasets files -d zillow/zecon</div></pre></td></tr></tbody></table></figure>
+<ul>
+<li>Download dataset files</li>
+</ul>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">usage: kaggle datasets download [-h] -d DATASET [-f FILE] [-p PATH] [-w] [-o]</div><div class="line">                                [-q]</div><div class="line"></div><div class="line">required arguments:</div><div class="line">  -d DATASET, --dataset DATASET</div><div class="line">                        Dataset URL suffix in format &lt;owner&gt;/&lt;dataset-name&gt; (use "kaggle datasets list" to show options)</div><div class="line"></div><div class="line">optional arguments:</div><div class="line">  -h, --help            show this help message and exit</div><div class="line">  -f FILE, --file FILE  File name, all files downloaded if not provided</div><div class="line">                        (use "kaggle datasets files -d &lt;dataset&gt;" to show options)</div><div class="line">  -p PATH, --path PATH  Folder where file(s) will be downloaded, defaults to ~/.kaggle</div><div class="line">  -w, --wp              Download files to current working path</div><div class="line">  -o, --force           Skip check whether local version of file is up to date, force file download</div><div class="line">  -q, --quiet           Suppress printing information about download progress</div></pre></td></tr></tbody></table></figure>
+<p>例子:</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">kaggle datasets download -d zillow/zecon</div><div class="line"></div><div class="line">kaggle datasets download -d zillow/zecon -f State_time_series.csv</div></pre></td></tr></tbody></table></figure>
+<ul>
+<li>Initialize metadata file for dataset creation</li>
+</ul>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">usage: kaggle datasets init [-h] -p FOLDER</div><div class="line"></div><div class="line">required arguments:</div><div class="line">  -p FOLDER, --path FOLDER</div><div class="line">                        Folder for upload, containing data files and a special metadata.json file (https://github.com/Kaggle/kaggle-api/wiki/Metadata)</div><div class="line"></div><div class="line">optional arguments:</div><div class="line">  -h, --help            show this help message and exit</div></pre></td></tr></tbody></table></figure>
+<p>例子:</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kaggle datasets init -p /path/to/dataset</div></pre></td></tr></tbody></table></figure>
+<ul>
+<li>Create a new dataset</li>
+</ul>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">usage: kaggle datasets create [-h] -p FOLDER [-u] [-q]</div><div class="line"></div><div class="line">required arguments:</div><div class="line">  -p FOLDER, --path FOLDER</div><div class="line">                        Folder for upload, containing data files and a special metadata.json file (https://github.com/Kaggle/kaggle-api/wiki/Metadata)</div><div class="line"></div><div class="line">optional arguments:</div><div class="line">  -h, --help            show this help message and exit</div><div class="line">  -u, --public          Create the Dataset publicly (default is private)</div><div class="line">  -q, --quiet           Suppress printing information about download progress</div><div class="line">  -t, --keep-tabular    Do not convert tabular files to CSV (default is to convert)</div></pre></td></tr></tbody></table></figure>
+<p>例子:</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kaggle datasets create -p /path/to/dataset</div></pre></td></tr></tbody></table></figure>
+<ul>
+<li>Create a new dataset version</li>
+</ul>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">usage: kaggle datasets version [-h] -m VERSION_NOTES -p FOLDER [-q]</div><div class="line"></div><div class="line">required arguments:</div><div class="line">  -m VERSION_NOTES, --message VERSION_NOTES</div><div class="line">                        Message describing the new version</div><div class="line">  -p FOLDER, --path FOLDER</div><div class="line">                        Folder for upload, containing data files and a special metadata.json file (https://github.com/Kaggle/kaggle-api/wiki/Metadata)</div><div class="line"></div><div class="line">optional arguments:</div><div class="line">  -h, --help            show this help message and exit</div><div class="line">  -q, --quiet           Suppress printing information about download progress</div><div class="line">  -t, --keep-tabular    Do not convert tabular files to CSV (default is to convert)</div><div class="line">  -d, --delete-old-versions</div><div class="line">                        Delete old versions of this dataset</div></pre></td></tr></tbody></table></figure>
+<p>例子:</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kaggle datasets version -p /path/to/dataset -m "Updated data"</div></pre></td></tr></tbody></table></figure>
+<p><strong>配置</strong></p>
+<ul>
+<li>View current config values</li>
+</ul>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">usage: kaggle config path [-h] [-p PATH]</div><div class="line"></div><div class="line">optional arguments:</div><div class="line">  -h, --help            show this help message and exit</div><div class="line">  -p PATH, --path PATH  folder where file(s) will be downloaded, defaults to ~/.kaggle</div><div class="line">Example:</div><div class="line"></div><div class="line">kaggle config path -p C:\</div><div class="line"></div><div class="line">View current config values</div><div class="line">usage: kaggle config view [-h]</div><div class="line"></div><div class="line">optional arguments:</div><div class="line">  -h, --help  show this help message and exit</div></pre></td></tr></tbody></table></figure>
+<p>例子:</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kaggle config view</div></pre></td></tr></tbody></table></figure>
+<ul>
+<li>Set a configuration value</li>
+</ul>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">usage: kaggle config set [-h] -n NAME -v VALUE</div><div class="line"></div><div class="line">required arguments:</div><div class="line">  -n NAME, --name NAME  Name of the configuration parameter</div><div class="line">                        (one of competition, path, proxy)</div><div class="line">  -v VALUE, --value VALUE</div><div class="line">                        Value of the configuration parameter, valid values depending on name</div><div class="line">                        - competition: Competition URL suffix (use "kaggle competitions list" to show options)</div><div class="line">                        - path: Folder where file(s) will be downloaded, defaults to ~/.kaggle</div><div class="line">                        - proxy: Proxy for HTTP requests</div></pre></td></tr></tbody></table></figure>
+<p>例子:</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kaggle config set -n competition -v titanic</div></pre></td></tr></tbody></table></figure>
+<ul>
+<li>Clear a configuration value</li>
+</ul>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">usage: kaggle config unset [-h] -n NAME</div><div class="line"></div><div class="line">required arguments:</div><div class="line">  -n NAME, --name NAME  Name of the configuration parameter</div><div class="line">                        (one of competition, path, proxy)</div></pre></td></tr></tbody></table></figure>
+<p>例子:</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kaggle config unset -n competition</div></pre></td></tr></tbody></table></figure>
+<p>注意：目前最大的限制是此时不以任何方式支持内核。 我们打算在不久的将来实施支持，尽管没有ETA。 此外，目前无法使用大型数据集（&gt; = 2GB）。</p>
+<h2 id="参考"><a href="http://dingby.site/2018/07/06/kaggle%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/#%E5%8F%82%E8%80%83" class="headerlink" title="参考"></a>参考</h2><ol>
+<li><a href="https://www.kaggle.com/" target="_blank" rel="external">kaggle官网</a></li>
+<li><a href="https://github.com/Kaggle/kaggle-api" target="_blank" rel="external">kaggle API</a></li>
+<li><a href="https://blog.csdn.net/qunnie_yi/article/details/80129508" target="_blank" rel="external">从0到1走进 Kaggle</a></li>
+<li><a href="https://blog.csdn.net/aliceyangxi1987/article/details/71079448" target="_blank" rel="external">一个框架解决几乎所有机器学习问题</a></li>
+<li><a href="https://www.jianshu.com/p/f648de991d51" target="_blank" rel="external">Kaggle比赛：从何着手？</a></li>
+<li><a href="https://www.aliyun.com/jiaocheng/435330.html?spm=5176.100033.2.8.f0tCsX" target="_blank" rel="external">kaggle入门（python数据处理）</a></li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+    
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="http://dingby.site/tags/kaggle/" rel="tag"># kaggle</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="http://dingby.site/2018/07/05/PHP%EF%BC%88%E5%9B%9B%EF%BC%89%E2%80%94%E2%80%94%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="next" title="PHP（四）——性能优化">
+                <i class="fa fa-chevron-left"></i> PHP（四）——性能优化
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="http://dingby.site/2018/07/10/PHP%E7%AE%80%E5%8D%95%E5%8A%9F%E8%83%BD%E7%9A%84%E5%AE%9E%E7%8E%B0/" rel="prev" title="PHP简单功能的实现">
+                PHP简单功能的实现 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="./kaggle使用笔记 _ beatrice&#39;s blogs_files/beatrice.jpg" alt="beatrice">
+          <p class="site-author-name" itemprop="name">beatrice</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="http://dingby.site/archives/">
+                <span class="site-state-item-count">94</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="http://dingby.site/categories/index.html">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="http://dingby.site/tags/index.html">
+                <span class="site-state-item-count">54</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="http://dingby.site/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc" style="max-height: 596px; width: calc(100% + 17px);">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="http://dingby.site/2018/07/06/kaggle%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/#kaggle-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">kaggle 是什么？</span></a></li><li class="nav-item nav-level-2 active"><a class="nav-link" href="http://dingby.site/2018/07/06/kaggle%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/#%E5%8F%82%E8%B5%9B%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">参赛方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="http://dingby.site/2018/07/06/kaggle%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/#%E7%95%8C%E9%9D%A2%E4%BB%8B%E7%BB%8D%EF%BC%9A"><span class="nav-number">2.1.</span> <span class="nav-text">界面介绍：</span></a></li><li class="nav-item nav-level-3 active active-current"><a class="nav-link" href="http://dingby.site/2018/07/06/kaggle%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/#%E5%8F%82%E8%B5%9B%E6%B5%81%E7%A8%8B"><span class="nav-number">2.2.</span> <span class="nav-text">参赛流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="http://dingby.site/2018/07/06/kaggle%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/#kaggle-API%E7%9A%84%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BD%BF%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">kaggle API的安装及使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="http://dingby.site/2018/07/06/kaggle%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/#%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95"><span class="nav-number">3.1.</span> <span class="nav-text">安装方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="http://dingby.site/2018/07/06/kaggle%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/#%E4%B8%8B%E8%BD%BDAPI-credentials"><span class="nav-number">3.2.</span> <span class="nav-text">下载API credentials</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="http://dingby.site/2018/07/06/kaggle%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/#%E5%91%BD%E4%BB%A4"><span class="nav-number">3.3.</span> <span class="nav-text">命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="http://dingby.site/2018/07/06/kaggle%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/#%E5%8F%82%E8%80%83"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async="" src="./kaggle使用笔记 _ beatrice&#39;s blogs_files/busuanzi.pure.mini.js.下载"></script>
+
+<div class="copyright">
+  
+  © 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-/uploads/avatar.jpg"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">beatrice</span>
+</div>
+
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv" style="display: inline;">
+  本站访客数:<span id="busuanzi_value_site_uv">1612</span>
+</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io/">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top back-to-top-on">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="./kaggle使用笔记 _ beatrice&#39;s blogs_files/index.js.下载"></script>
+
+  
+  <script type="text/javascript" src="./kaggle使用笔记 _ beatrice&#39;s blogs_files/fastclick.min.js.下载"></script>
+
+  
+  <script type="text/javascript" src="./kaggle使用笔记 _ beatrice&#39;s blogs_files/jquery.lazyload.js.下载"></script>
+
+  
+  <script type="text/javascript" src="./kaggle使用笔记 _ beatrice&#39;s blogs_files/velocity.min.js.下载"></script>
+
+  
+  <script type="text/javascript" src="./kaggle使用笔记 _ beatrice&#39;s blogs_files/velocity.ui.min.js.下载"></script>
+
+  
+  <script type="text/javascript" src="./kaggle使用笔记 _ beatrice&#39;s blogs_files/jquery.fancybox.pack.js.下载"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="./kaggle使用笔记 _ beatrice&#39;s blogs_files/utils.js.下载"></script>
+
+  <script type="text/javascript" src="./kaggle使用笔记 _ beatrice&#39;s blogs_files/motion.js.下载"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="./kaggle使用笔记 _ beatrice&#39;s blogs_files/scrollspy.js.下载"></script>
+<script type="text/javascript" src="./kaggle使用笔记 _ beatrice&#39;s blogs_files/post-details.js.下载"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="./kaggle使用笔记 _ beatrice&#39;s blogs_files/bootstrap.js.下载"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+</body></html>
